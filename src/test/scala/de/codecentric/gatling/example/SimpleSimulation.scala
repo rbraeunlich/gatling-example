@@ -9,7 +9,7 @@ import io.gatling.http.Predef._
   */
 class SimpleSimulation extends Simulation {
 
-  private val httpConfig = http.baseURL("http://computer-database.gatling.io/computers")
+  private val httpConfig = http.baseURL("http://computer-database.gatling.io")
 
   private val scn = scenario("SimpleSimulation").
     exec(http("open").

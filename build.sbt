@@ -9,3 +9,5 @@ lazy val root = project
         "io.gatling" % "gatling-test-framework" % "2.2.1"
     )
   ).enablePlugins(GatlingPlugin)
+
+publishArtifact in (Test, packageBin) := true
