@@ -8,4 +8,4 @@ lazy val root = project
         "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.2.1" % "provided",
         "io.gatling" % "gatling-test-framework" % "2.2.1" % "provided"
     )
-  )
+  ).enablePlugins(GatlingPlugin)
