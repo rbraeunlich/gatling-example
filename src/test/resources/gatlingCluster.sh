@@ -17,7 +17,7 @@ fi
 USER_NAME='root'
 
 #Remote hosts list
-HOSTS=( localhost:32782 localhost:32783 )
+HOSTS=( localhost:4000 localhost:4001 )
 
 #Simulation options
 
@@ -79,7 +79,7 @@ done
 for HOST in "${HOSTS[@]}"
 do
   echo "Gathering run log file from host: $HOST"
-  scp -i id_rsa -P $port $USER_NAME@$address:/gatling-run.log ./gatling-run-${HOST}.log
+  scp -i id_rsa -P $port $USER_NAME@$address:gatling-run.log ./gatling-run-${HOST}.log
 done
 
 mv $GATHER_REPORTS_DIR $GATLING_REPORT_DIR
