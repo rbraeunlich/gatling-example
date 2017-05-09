@@ -22,7 +22,8 @@ class ComplexSimulation extends Simulation {
     feed(numberFeeder.iterator).
     exec(http("create new computer").
       post("/computers").
-    formParamMap(Map("name" -> "Codecentric Machine ${veryImportantId}")))
+    formParamMap(Map("name" -> "Codecentric Machine ${veryImportantId}"))).
+    exec(s => {s.attributes.foreach(println(_)); s})
 
   private val checkComputer = scenario("Check Computer").
     feed(numberFeeder.iterator).
