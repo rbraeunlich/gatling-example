@@ -62,24 +62,24 @@ do
   ssh -n -f -i id_rsa $USER_NAME@$address -p $port "sh -c 'nohup /$GATLING_RUNNER -nr -s $SIMULATION_NAME > gatling-run.log 2>&1 &'"
 done
 
-$GATLING_RUNNER -nr -s $SIMULATION_NAME > gatling-run-localhost-${DATA_TYPE_ID}.log
+$GATLING_RUNNER -nr -s $SIMULATION_NAME > gatling-run-localhost.log
 
 echo "Gathering result file from localhost"
 ls -t $GATLING_REPORT_DIR | head -n 1 | xargs -I {} mv ${GATLING_REPORT_DIR}{} ${GATLING_REPORT_DIR}report
-cp ${GATLING_REPORT_DIR}report/simulation.log ${GATHER_REPORTS_DIR}simulation-${DATA_TYPE_ID}.log
+cp ${GATLING_REPORT_DIR}report/simulation.log ${GATHER_REPORTS_DIR}simulation.log
 
 for HOST in "${HOSTS[@]}"
 do
   echo "Gathering result file from host: $HOST"
   IFS=: read -r address port <<< "$HOST"
   ssh -n -f -i id_rsa $USER_NAME@$address -p $port "sh -c 'ls -t /$GATLING_REPORT_DIR | head -n 1 | xargs -I {} mv /${GATLING_REPORT_DIR}{} /${GATLING_REPORT_DIR}report'"
-  scp -i id_rsa -P $port $USER_NAME@$address:/${GATLING_REPORT_DIR}report/simulation.log ${GATHER_REPORTS_DIR}simulation-${HOST}-${DATA_TYPE_ID}.log
+  scp -i id_rsa -P $port $USER_NAME@$address:/${GATLING_REPORT_DIR}report/simulation.log ${GATHER_REPORTS_DIR}simulation-${HOST}.log
 done
 
 for HOST in "${HOSTS[@]}"
 do
   echo "Gathering run log file from host: $HOST"
-  scp -i id_rsa -P $port $USER_NAME@$address:/gatling-run.log ./gatling-run-${HOST}-${DATA_TYPE_ID}.log
+  scp -i id_rsa -P $port $USER_NAME@$address:/gatling-run.log ./gatling-run-${HOST}.log
 done
 
 mv $GATHER_REPORTS_DIR $GATLING_REPORT_DIR
